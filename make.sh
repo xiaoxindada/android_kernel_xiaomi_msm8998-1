@@ -77,5 +77,5 @@ pack_kernel() {
 
 #clone_clang
 #clone_gcc
-#build_with_clang
+build_with_clang
 pack_kernel
