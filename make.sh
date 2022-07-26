@@ -2,6 +2,8 @@
 
 LOCALDIR=$(cd "$(dirname $0)" && pwd)
 cd $LOCALDIR
+
+tmpdir="$LOCALDIR/tmp"
 anykernel_name="AnyKernel3"
 defconfig="sagit_defconfig"
 
@@ -52,6 +54,28 @@ build_with_clang() {
     fi
 }
 
+pack_kernel() {
+    local anykernel="$LOCALDIR/AnyKernel3"
+    local pack_archive="kernel.zip"
+    local output="$LOCALDIR/out/arch/arm64/boot"
+
+    rm -rf $tmpdir
+    mkdir -p $tmpdir
+    cp -af $anykernel/* $tmpdir/
+    for file in Image.gz-dtb; do
+        [ ! -f $output/$file ] && echo "$file not found!" && exit 1
+        cp -f $output/$file $tmpdir/$file
+    done
+    cd $tmpdir
+    zip -r $pack_archive *
+    mv -f $pack_archive $LOCALDIR
+    cd $LOCALDIR
+    rm -rf $tmpdir
+    [ -f $LOCALDIR/$pack_archive ] && echo "output: $LOCALDIR/$pack_archive"
+
+}
+
 #clone_clang
 #clone_gcc
-build_with_clang
+#build_with_clang
+pack_kernel
