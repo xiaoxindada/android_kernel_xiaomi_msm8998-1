@@ -37,7 +37,5 @@ set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin
 ## AnyKernel boot install
 dump_boot
 
-patch_cmdline "androidboot.fakeselenforce" "androidboot.fakeselenforce=1"
-
 write_boot
 ## end boot install
